@@ -17,61 +17,55 @@ DROP TABLE IF EXISTS `client`;
 -- Creating tables
 
 CREATE TABLE `client`(
-	id BIGINT NOT NULL AUTO_INCREMENT,
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(35) NOT NULL,
     surname VARCHAR(35) NOT NULL,
     phone_number VARCHAR(20) NOT NULL,
-    address VARCHAR(70) NULL,
-    PRIMARY KEY(id)
-) ENGINE = INNODB;
+    address VARCHAR(70) NULL
+);
 
 CREATE TABLE `account`(
-	client_id BIGINT NOT NULL,
+	client_id BIGINT PRIMARY KEY,
     username VARCHAR(35) NOT NULL,
     password VARCHAR(35) NOT NULL,
-    email_address VARCHAR(35) NOT NULL,
-    PRIMARY KEY(client_id)
-) ENGINE = INNODB;
+    email_address VARCHAR(35) NOT NULL
+);
 
 CREATE TABLE `region`(
-	region VARCHAR(30) NOT NULL,
-    PRIMARY KEY(region)
-) ENGINE = INNODB;
+	region VARCHAR(30) PRIMARY KEY
+);
 
 CREATE TABLE `city`(
 	city VARCHAR(30) NOT NULL,
 	region_name VARCHAR(30) NOT NULL,
     PRIMARY KEY(city)
-) ENGINE = INNODB;
+);
 
 CREATE TABLE `department`(
-	id BIGINT NOT NULL AUTO_INCREMENT,
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     city_name VARCHAR(30) NOT NULL,
     address VARCHAR(50) NOT NULL,
-    number INT NOT NULL,
-    PRIMARY KEY(id)
-) ENGINE = INNODB;
+    number INT NOT NULL
+);
 
 CREATE TABLE `operator`(
-	id BIGINT NOT NULL AUTO_INCREMENT,
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     department_id BIGINT NOT NULL,
     name VARCHAR(30) NOT NULL,
     surname VARCHAR(30) NOT NULL,
-    phone_number VARCHAR(15) NOT NULL,
-    PRIMARY KEY(id)
-) ENGINE = INNODB;
+    phone_number VARCHAR(15) NOT NULL
+);
 
 CREATE TABLE `courier`(
-	id BIGINT NOT NULL AUTO_INCREMENT,
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     department_id BIGINT NOT NULL,
     name VARCHAR(30) NOT NULL,
     surname VARCHAR(30) NOT NULL,
-    phone_number VARCHAR(15) NOT NULL,
-	PRIMARY KEY(id)
-) ENGINE = INNODB;
+    phone_number VARCHAR(15) NOT NULL
+);
 
 CREATE TABLE `order`(
-	id BIGINT NOT NULL AUTO_INCREMENT,
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     sender_client_id BIGINT NOT NULL,
     reciever_client_id BIGINT NOT NULL,
     sender_department_id BIGINT NOT NULL,
@@ -86,8 +80,8 @@ CREATE TABLE `order`(
     actual_recieving_datetime DATETIME NULL,
     parcel_price FLOAT NOT NULL,
     delievery_price FLOAT NOT NULL,
-    PRIMARY KEY(id)
-) ENGINE = INNODB;
+    total_price FLOAT AS (parcel_price + delievery_price)
+);
 
 
 -- Altering tables
@@ -133,13 +127,13 @@ ALTER TABLE `order`
     ADD INDEX reciever_dep_index (reciever_department_id),
     ADD INDEX sender_oper_index (sender_operator_id),
     ADD INDEX reciever_oper_index (reciever_operator_id),
-    
+
 	ADD CONSTRAINT fk_client_1
 		FOREIGN KEY(sender_client_id)
-		REFERENCES department(id),
+		REFERENCES client(id),
 	ADD CONSTRAINT fk_client_2
 		FOREIGN KEY(reciever_client_id)
-		REFERENCES department(id),
+		REFERENCES client(id),
 	ADD CONSTRAINT fk_department_1
 		FOREIGN KEY(sender_department_id) 
 		REFERENCES department(id),
@@ -263,4 +257,3 @@ VALUES
 							CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP() + INTERVAL 1 DAY + INTERVAL 20 MINUTE, 300, 49),
 	(5, 10, 4, 9, 5, 9, 4, DEFAULT, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP() + INTERVAL 2 DAY + INTERVAL 15 MINUTE,
 							CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP() + INTERVAL 2 DAY + INTERVAL 45 MINUTE, 1200, 210);
-
