@@ -36,14 +36,14 @@ CREATE TABLE `region`(
 );
 
 CREATE TABLE `city`(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
 	city VARCHAR(30) NOT NULL,
-	region_name VARCHAR(30) NOT NULL,
-    PRIMARY KEY(city)
+	region_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE `department`(
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    city_name VARCHAR(30) NOT NULL,
+    city_id BIGINT NOT NULL,
     address VARCHAR(50) NOT NULL,
     number INT NOT NULL
 );
@@ -67,11 +67,11 @@ CREATE TABLE `courier`(
 CREATE TABLE `order`(
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     sender_client_id BIGINT NOT NULL,
-    reciever_client_id BIGINT NOT NULL,
+    receiver_client_id BIGINT NOT NULL,
     sender_department_id BIGINT NOT NULL,
-    reciever_department_id BIGINT NOT NULL,
+    receiver_department_id BIGINT NOT NULL,
     sender_operator_id BIGINT NOT NULL,
-    reciever_operator_id BIGINT NOT NULL,
+    receiver_operator_id BIGINT NOT NULL,
     courier_between_departments_id BIGINT NOT NULL,
     courier_on_spot_id BIGINT DEFAULT NULL,
     planned_sending_datetime DATETIME NOT NULL,
@@ -99,12 +99,12 @@ ALTER TABLE `city`
 		REFERENCES region(region);
 
 ALTER TABLE `department`
-	ADD INDEX city_index (city_name),
+	ADD INDEX city_index (city_id),
     ADD INDEX number_index (number),
 
 	ADD CONSTRAINT fk_city
-		FOREIGN KEY(city_name) 
-		REFERENCES city(city);
+		FOREIGN KEY(city_id) 
+		REFERENCES city(id);
 
 ALTER TABLE `operator`
 	ADD INDEX operators_department_index (department_id),
@@ -122,29 +122,29 @@ ALTER TABLE `courier`
 
 ALTER TABLE `order`
 	ADD INDEX sender_index (sender_client_id),
-    ADD INDEX reciever_index (reciever_client_id),
+    ADD INDEX receiver_index (receiver_client_id),
     ADD INDEX sender_dep_index (sender_department_id),
-    ADD INDEX reciever_dep_index (reciever_department_id),
+    ADD INDEX receiver_dep_index (receiver_department_id),
     ADD INDEX sender_oper_index (sender_operator_id),
-    ADD INDEX reciever_oper_index (reciever_operator_id),
+    ADD INDEX receiver_oper_index (receiver_operator_id),
 
 	ADD CONSTRAINT fk_client_1
 		FOREIGN KEY(sender_client_id)
 		REFERENCES client(id),
 	ADD CONSTRAINT fk_client_2
-		FOREIGN KEY(reciever_client_id)
+		FOREIGN KEY(receiver_client_id)
 		REFERENCES client(id),
 	ADD CONSTRAINT fk_department_1
 		FOREIGN KEY(sender_department_id) 
 		REFERENCES department(id),
 	ADD CONSTRAINT fk_department_2
-		FOREIGN KEY(reciever_department_id) 
+		FOREIGN KEY(receiver_department_id) 
 		REFERENCES department(id),
 	ADD CONSTRAINT fk_operator_1
 		FOREIGN KEY(sender_operator_id) 
 		REFERENCES operator(id), 
 	ADD CONSTRAINT fk_operator_2
-		FOREIGN KEY(reciever_operator_id) 
+		FOREIGN KEY(receiver_operator_id) 
 		REFERENCES operator(id);
 
 
@@ -195,18 +195,18 @@ VALUES
     ("Ternopil", "Ternopil state"),
     ("Rivne", "Rivne state");
 
-INSERT INTO `department` (city_name, address, number) 
+INSERT INTO `department` (city_id, address, number) 
 VALUES 
-	("Lviv", "Uhorska, 22", 3),
-    ("Lviv", "Truskavetska, 15", 4),
-    ("Lviv", "Chornovola, 16d", 13),
-    ("Stryi", "Poshtova, 5", 3),
-    ("Kyiv", "Pryvokzalna, 12", 32),
-    ("Kyiv", "Verhovynna, 69", 4),
-    ("Kyiv", "Biloruska, 28a", 24),
-    ("Irpin", "Novooskolska, 6a", 5),
-    ("Ternopil", "Ruska, 15", 2),
-    ("Rivne", "Kyivska, 21", 8);
+	(1, "Uhorska, 22", 3),
+    (1, "Truskavetska, 15", 4),
+    (1, "Chornovola, 16d", 13),
+    (3, "Poshtova, 5", 3),
+    (4, "Pryvokzalna, 12", 32),
+    (4, "Verhovynna, 69", 4),
+    (4, "Biloruska, 28a", 24),
+    (5, "Novooskolska, 6a", 5),
+    (6, "Ruska, 15", 2),
+    (7, "Kyivska, 21", 8);
 
 INSERT INTO `operator` (department_id, name, surname, phone_number)
 VALUES 
@@ -231,9 +231,9 @@ VALUES
     (8, "Zeynep", "Clements", "+1 505-574-8531"),
     (9, "Briony", "Thorne", "+1 252-213-1851");
 
-INSERT INTO `order` (sender_client_id, reciever_client_id, 
-					sender_department_id, reciever_department_id,
-                    sender_operator_id, reciever_operator_id,
+INSERT INTO `order` (sender_client_id, receiver_client_id, 
+					sender_department_id, receiver_department_id,
+                    sender_operator_id, receiver_operator_id,
                     courier_between_departments_id, courier_on_spot_id,
                     planned_sending_datetime, planned_recieving_datetime, 
                     actual_sending_datetime, actual_recieving_datetime,
