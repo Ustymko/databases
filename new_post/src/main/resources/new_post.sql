@@ -86,16 +86,16 @@ CREATE TABLE `order`(
 
 -- Altering tables
 
-ALTER TABLE `account` 
+ALTER TABLE `account`
 	ADD UNIQUE INDEX username_index (username),
 
-	ADD CONSTRAINT fk_client 
-		FOREIGN KEY(client_id) 
+	ADD CONSTRAINT fk_client
+		FOREIGN KEY(client_id)
 		REFERENCES client(id);
 
 ALTER TABLE `city`
 	ADD CONSTRAINT fk_region
-		FOREIGN KEY(region_name) 
+		FOREIGN KEY(region_name)
 		REFERENCES region(region);
 
 ALTER TABLE `department`
@@ -103,21 +103,21 @@ ALTER TABLE `department`
     ADD INDEX number_index (number),
 
 	ADD CONSTRAINT fk_city
-		FOREIGN KEY(city_id) 
+		FOREIGN KEY(city_id)
 		REFERENCES city(id);
 
 ALTER TABLE `operator`
 	ADD INDEX operators_department_index (department_id),
 
 	ADD CONSTRAINT fk_department_oper
-		FOREIGN KEY(department_id) 
+		FOREIGN KEY(department_id)
 		REFERENCES department(id);
 
 ALTER TABLE `courier`
 	ADD INDEX couriers_department_index (department_id),
-    
+
 	ADD CONSTRAINT fk_department_cour
-		FOREIGN KEY(department_id) 
+		FOREIGN KEY(department_id)
 		REFERENCES department(id);
 
 ALTER TABLE `order`
@@ -135,22 +135,22 @@ ALTER TABLE `order`
 		FOREIGN KEY(receiver_client_id)
 		REFERENCES client(id),
 	ADD CONSTRAINT fk_department_1
-		FOREIGN KEY(sender_department_id) 
+		FOREIGN KEY(sender_department_id)
 		REFERENCES department(id),
 	ADD CONSTRAINT fk_department_2
-		FOREIGN KEY(receiver_department_id) 
+		FOREIGN KEY(receiver_department_id)
 		REFERENCES department(id),
 	ADD CONSTRAINT fk_operator_1
-		FOREIGN KEY(sender_operator_id) 
-		REFERENCES operator(id), 
+		FOREIGN KEY(sender_operator_id)
+		REFERENCES operator(id),
 	ADD CONSTRAINT fk_operator_2
-		FOREIGN KEY(receiver_operator_id) 
+		FOREIGN KEY(receiver_operator_id)
 		REFERENCES operator(id);
 
 
 -- Inserting data
 
-INSERT INTO `client` (name, surname, phone_number, address) 
+INSERT INTO `client` (name, surname, phone_number, address)
 VALUES
 	("Andrei", "Gates", "+1 582-500-6235", "358 Clark Street"),
     ("Fardeen", "Krueger", "+1 810-327-6243", "1375 Romines Mill Road"),
@@ -178,8 +178,8 @@ VALUES
     (10, "ScarlettMama", "Fo59&o!Lz44r", "milyoshina@galvanitrieste.it"),
     (11, "AtomicX", "LF1*37v8dNem", "fatalreign@galvanitrieste.it");
 
-INSERT INTO	`region` (region) 
-VALUES 
+INSERT INTO	`region` (region)
+VALUES
 	("Lviv state"),
     ("Kyiv state"),
     ("Ternopil state"),
@@ -195,8 +195,8 @@ VALUES
     ("Ternopil", "Ternopil state"),
     ("Rivne", "Rivne state");
 
-INSERT INTO `department` (city_id, address, number) 
-VALUES 
+INSERT INTO `department` (city_id, address, number)
+VALUES
 	(1, "Uhorska, 22", 3),
     (1, "Truskavetska, 15", 4),
     (1, "Chornovola, 16d", 13),
@@ -209,7 +209,7 @@ VALUES
     (7, "Kyivska, 21", 8);
 
 INSERT INTO `operator` (department_id, name, surname, phone_number)
-VALUES 
+VALUES
 	(1, "Hamaad", "Browne", "+1 205-736-6804"),
     (2, "Ariah", "Coleman", "+1 505-683-2634"),
     (6, "Sanya", "Broughton", "+1 229-950-1449"),
@@ -221,7 +221,7 @@ VALUES
     (8, "Naveed", "Shaw", "+1 231-777-2245");
 
 INSERT INTO `courier` (department_id, name, surname, phone_number)
-VALUES 
+VALUES
 	(1, "Neha", "Whyte", "+1 205-778-7415"),
     (2, "Rodney", "Goulding", "+1 582-222-1233"),
     (3, "Kevin", "Stanton", "+1 206-982-5429"),
@@ -231,11 +231,11 @@ VALUES
     (8, "Zeynep", "Clements", "+1 505-574-8531"),
     (9, "Briony", "Thorne", "+1 252-213-1851");
 
-INSERT INTO `order` (sender_client_id, receiver_client_id, 
+INSERT INTO `order` (sender_client_id, receiver_client_id,
 					sender_department_id, receiver_department_id,
                     sender_operator_id, receiver_operator_id,
                     courier_between_departments_id, courier_on_spot_id,
-                    planned_sending_datetime, planned_receiving_datetime, 
+                    planned_sending_datetime, planned_receiving_datetime,
                     actual_sending_datetime, actual_receiving_datetime,
                     parcel_price, delivery_price)
 VALUES
