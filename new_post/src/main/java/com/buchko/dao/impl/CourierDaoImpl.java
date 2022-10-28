@@ -19,9 +19,9 @@ public class CourierDaoImpl implements CourierDao {
     private static final String FIND_BY_ID = "SELECT * FROM `courier` WHERE id = ?";
     private static final String FIND_BY_DEPARTMENT = "SELECT * FROM `courier` WHERE department_id = ?";
     private static final String INSERT =
-        "INSERT INTO `courier`(department_id, name, surname, phoneNumber) VALUES (?, ?, ?, ?)";
+        "INSERT INTO `courier`(department_id, name, surname, phone_number) VALUES (?, ?, ?, ?)";
     private static final String UPDATE =
-        "UPDATE `courier` SET department_id = ?, name = ?, surname = ?, phoneNumber = ? WHERE id = ?";
+        "UPDATE `courier` SET department_id = ?, name = ?, surname = ?, phone_number = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM `courier` WHERE id = ?";
 
     @Autowired

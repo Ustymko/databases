@@ -17,9 +17,9 @@ public class AccountDaoImpl implements AccountDao {
     private static final String FIND_ALL = "SELECT * FROM `account`";
     private static final String FIND_BY_ID = "SELECT * FROM `account` WHERE client_id = ?";
     private static final String INSERT =
-        "INSERT INTO `account`(client_id, username, password, emailAddress) VALUES (?, ?, ?)";
+        "INSERT INTO `account`(client_id, username, password, email_address) VALUES (?, ?, ?)";
     private static final String UPDATE =
-        "UPDATE `account` SET username = ?, password = ?, emailAddress = ? WHERE client_id = ?";
+        "UPDATE `account` SET username = ?, password = ?, email_address = ? WHERE client_id = ?";
     private static final String DELETE = "DELETE FROM `account` WHERE client_id = ?";
 
     @Autowired
