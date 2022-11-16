@@ -7,6 +7,7 @@ import new_post.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,10 +15,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     ClientRepository clientRepository;
-
-//    ClientServiceImpl(ClientRepository clientRepository) {
-//        this.clientRepository = clientRepository;
-//    }
 
     @Override
     public List<ClientEntity> findAll() {
@@ -50,5 +47,18 @@ public class ClientServiceImpl implements ClientService {
     public void delete(Long id) {
         ClientEntity client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
         clientRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void insertTenClients() {
+        clientRepository.insertTenClients();
+    }
+
+    @Override
+    @Transactional
+    public void insertClient(ClientEntity client) {
+        clientRepository.insertClientWithProcedure(client.getName(),
+                client.getSurname(), client.getPhoneNumber(), client.getAddress());
     }
 }

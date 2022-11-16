@@ -46,6 +46,13 @@ CREATE TABLE `courier`(
                           phone_number VARCHAR(15) NOT NULL
 );
 
+
+CREATE TABLE `courier_got_hired` (
+                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        courier_id BIGINT NOT NULL,
+                        time_stamp DATETIME
+);
+
 CREATE TABLE orders(
                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
                         sender_client_id BIGINT NOT NULL,

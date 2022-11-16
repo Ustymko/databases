@@ -36,6 +36,11 @@ public class DepartmentController {
         return new ResponseEntity<>(departmentDto, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/createDatabases")
+    public void createDatabases(){
+        departmentService.dynamic_procedure();
+    }
+
     @PostMapping(value = "")
     public ResponseEntity<DepartmentDto> addDepartment(@RequestBody DepartmentEntity department) {
         DepartmentEntity newDepartment = departmentService.create(department);
