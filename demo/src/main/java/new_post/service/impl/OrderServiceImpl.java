@@ -7,6 +7,7 @@ import new_post.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -52,5 +53,11 @@ public class OrderServiceImpl implements OrderService {
         OrdersEntity order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
 
         orderRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void findMaxParcelPriceForClient(Integer receiverClientId) {
+        orderRepository.findMaxParcelPriceForClient(receiverClientId);
     }
 }

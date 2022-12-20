@@ -55,5 +55,15 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(value = "/add10")
+    public void createTenClients(){
+        clientService.insertTenClients();
+    }
+
+    @PostMapping(value = "/addWithProcedure")
+    public void addClientWithProc(@RequestBody ClientEntity client){
+        clientService.insertClient(client);
+    }
+
 
 }

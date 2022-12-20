@@ -53,4 +53,9 @@ public class OrderController {
         orderService.delete(orderId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/findMaxPriceByReceiverClientId/{receiverClientId}")
+    public void findMaxParcelPriceForClient(@PathVariable Integer receiverClientId){
+        orderService.findMaxParcelPriceForClient(receiverClientId);
+    }
 }
