@@ -1,7 +1,5 @@
 #
-# databases
-
-Variant 3
+# <p align="center">Databases</p>
 
 **Lab 1** - creating database structure
 
